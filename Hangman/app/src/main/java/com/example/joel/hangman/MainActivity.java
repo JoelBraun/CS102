@@ -1,19 +1,18 @@
 package com.example.joel.hangman;
 
-import android.media.SoundPool;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Button;
-import android.view.View;
-import android.util.Log;
-import android.widget.EditText;
-import java.util.List;
+
 import java.util.ArrayList;
-import android.media.MediaPlayer;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -48,6 +47,15 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Button play = (Button) this.findViewById(R.id.play);
         final EditText input = (EditText)this.findViewById(R.id.editText);
+        /*input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    return true;
+                }
+                return false;
+            }
+        });*/
         final TextView wdview = (TextView)this.findViewById(R.id.WordView);
         final TextView statusdisplay = (TextView)this.findViewById(R.id.Status);
         final String word = "mussolini";
