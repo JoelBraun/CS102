@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
         final String visible1 = wordstring(word);
         wdview.setText(wordstring(word));
         final ImageView marmot = (ImageView)this.findViewById(R.id.imageView);
+        marmot.setImageResource(R.drawable.face1);
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.anchorsaweigh);
         final TextView tv = (TextView) this.findViewById(R.id.Remaining);
         tv.setText("5");
@@ -127,13 +128,15 @@ public class MainActivity extends ActionBarActivity {
                                     if(--remainingGuesses > 0) {
 
                                         tv.setText("" + remainingGuesses);
-
+                                        if(remainingGuesses == 4) marmot.setImageResource(R.drawable.face1);
+                                        if(remainingGuesses == 3) marmot.setImageResource(R.drawable.face2);
+                                        if(remainingGuesses == 2) marmot.setImageResource(R.drawable.face3);
+                                        if(remainingGuesses == 1) marmot.setImageResource(R.drawable.face4);
 
                                     }
                                     else {
-
                                         statusdisplay.setText("You lost: the word was "+word);
-                                        marmot.setImageResource(R.drawable.mussolini);
+                                        marmot.setImageResource(R.drawable.face5);
                                         mp2.start();
                                         input.setEnabled(false);
 
@@ -190,38 +193,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public String randomword(){
-
-        int randomInt = (int) (Math.random()*10);
-
-
-
-        String[] test = new String[10];
-
-        test[0] = "hangman";
-
-        test[1] = "border";
-
-        test[2] = "constantly";
-
-        test[3] = "sale";
-
-        test[4] = "recall";
-
-        test[5] = "wealth";
-
-        test[6] = "enjoy";
-
-        test[7]= "independent";
-
-        test[8] = "calculus";
-
-        test[9] = "programming";
-
-
-
+        String[] test = {"time", "issue", "year", "people", "side", "kind", "way", "head", "day", "man", "service", "thing", "friend", "woman", "father", "life", "power", "child", "hour", "world", "game", "school", "line", "state", "end", "family", "member", "student", "law", "group", "car", "country", "city", "problem", "community", "hand", "name", "part", "president", "place", "team", "case", "minute", "week", "idea", "company", "kid", "system", "body", "program", "information", "question", "back", "work", "parent", "government", "face", "number", "others", "night", "level", "office", "cat", "point", "door", "home", "health", "water", "person", "room", "art", "mother", "war", "area", "history", "money", "party", "story", "result", "fact", "change", "month", "morning", "lot", "reason", "right", "research", "study", "girl", "book", "guy", "eye", "food", "job", "moment", "word", "air", "business", "teacher"};
+        int randomInt = (int) (Math.random()*test.length);
         return test[randomInt];
-
-
-
     }
 }
