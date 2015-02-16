@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
         });*/
         final TextView wdview = (TextView)this.findViewById(R.id.WordView);
         final TextView statusdisplay = (TextView)this.findViewById(R.id.Status);
-        final String word = "mussolini";
+        final String word = randomword();
         final String visible1 = wordstring(word);
         wdview.setText(wordstring(word));
         final ImageView marmot = (ImageView)this.findViewById(R.id.imageView);
@@ -187,5 +187,41 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String randomword(){
+
+        int randomInt = (int) (Math.random()*10);
+
+
+
+        String[] test = new String[10];
+
+        test[0] = "hangman";
+
+        test[1] = "border";
+
+        test[2] = "constantly";
+
+        test[3] = "sale";
+
+        test[4] = "recall";
+
+        test[5] = "wealth";
+
+        test[6] = "enjoy";
+
+        test[7]= "independent";
+
+        test[8] = "calculus";
+
+        test[9] = "programming";
+
+
+
+        return test[randomInt];
+
+
+
     }
 }
