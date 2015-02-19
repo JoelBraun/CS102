@@ -1,11 +1,14 @@
 package com.example.joel.hangman;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,17 +48,20 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button play = (Button) this.findViewById(R.id.play);
+        final Button play = (Button) this.findViewById(R.id.play);
         final EditText input = (EditText)this.findViewById(R.id.editText);
-        /*input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
+
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    play.callOnClick();
                     return true;
                 }
                 return false;
             }
-        });*/
+        });
         final TextView wdview = (TextView)this.findViewById(R.id.WordView);
         final TextView statusdisplay = (TextView)this.findViewById(R.id.Status);
         final String word = randomword();
@@ -71,100 +77,108 @@ public class MainActivity extends ActionBarActivity {
         play.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 int remainingGuesses;
-                 String wrongGuesses;
+                if (play.getText().toString() == "New Game!") {
+                    finish();
+                    startActivity(getIntent());
 
-                 String visible;
-                 List<String> l = new ArrayList<String>();
+                }
+                else {
+                    int remainingGuesses;
+                    String wrongGuesses;
+
+                    String visible;
+                    List<String> l = new ArrayList<String>();
 
                     remainingGuesses = convert(tv.getText().toString());
                     wrongGuesses = "";
 
 
-                      visible = wdview.getText().toString();
+                    visible = wdview.getText().toString();
 
 
-                    String status = "You have "+remainingGuesses+" remaining";
-                    String wrong = "Wrong guesses so far: "+wrongGuesses;
+                    String status = "You have " + remainingGuesses + " remaining";
+                    String wrong = "Wrong guesses so far: " + wrongGuesses;
 
 
-                            String text = input.getText().toString();
-                            Boolean flag = true;
+                    String text = input.getText().toString();
+                    Boolean flag = true;
 
-                            for (String s : l){
-                                if (text.equals(s)){
-                                    flag = false;
-                                }
-
-                            }
-
-
-                            if(text.length()  == 1 && text.matches("[a-z]") && flag) {
-
-                                boolean guessFound = false;
-
-                                l.add(text);
-
-                                for(int i = 0; i < word.length(); ++i) {
-                                    if(text.charAt(0) == word.charAt(i)) {
-                                        guessFound = true;
-
-                                        String newVisible = "";
-                                        for(int j = 0; j < visible.length(); ++j) {
-                                            if(j == (i*2)) {
-                                                newVisible += word.charAt(i);
-                                            }
-                                            else {
-                                                newVisible += visible.charAt(j);
-                                            }
-                                        }
-                                        visible = newVisible;
-                                        wdview.setText(visible);
-                                    }
-                                }
-
-                                if(!guessFound) {
-
-                                    if(--remainingGuesses > 0) {
-
-                                        tv.setText("" + remainingGuesses);
-                                        if(remainingGuesses == 4) marmot.setImageResource(R.drawable.face1);
-                                        if(remainingGuesses == 3) marmot.setImageResource(R.drawable.face2);
-                                        if(remainingGuesses == 2) marmot.setImageResource(R.drawable.face3);
-                                        if(remainingGuesses == 1) marmot.setImageResource(R.drawable.face4);
-
-                                    }
-                                    else {
-                                        statusdisplay.setText("You lost: the word was "+word);
-                                        marmot.setImageResource(R.drawable.face5);
-                                        mp2.start();
-                                        input.setEnabled(false);
-
-                                    }
-
-                                }
-                                else {
-                                    String actualVisible = "";
-                                    for(int i = 0; i < visible.length(); i+=2) {
-                                        actualVisible += visible.charAt(i);
-                                    }
-
-                                    if(actualVisible.equals(word)) {
-                                        statusdisplay.setText("Congratulations, you have won!");
-                                        marmot.setImageResource(R.drawable.teddy);
-                                        mp.start();
-                                        input.setEnabled(false);
-                                    }
-                                }
-
-                            }
-                            else {
-                                System.out.println("Invalid input!");
-                            }
-
-                            input.setText("");
-
+                    for (String s : l) {
+                        if (text.equals(s)) {
+                            flag = false;
                         }
+
+                    }
+
+
+                    if (text.length() == 1 && text.matches("[a-z]") && flag) {
+
+                        boolean guessFound = false;
+
+                        l.add(text);
+
+                        for (int i = 0; i < word.length(); ++i) {
+                            if (text.charAt(0) == word.charAt(i)) {
+                                guessFound = true;
+
+                                String newVisible = "";
+                                for (int j = 0; j < visible.length(); ++j) {
+                                    if (j == (i * 2)) {
+                                        newVisible += word.charAt(i);
+                                    } else {
+                                        newVisible += visible.charAt(j);
+                                    }
+                                }
+                                visible = newVisible;
+                                wdview.setText(visible);
+                            }
+                        }
+
+                        if (!guessFound) {
+
+                            if (--remainingGuesses > 0) {
+
+                                tv.setText("" + remainingGuesses);
+                                if (remainingGuesses == 4)
+                                    marmot.setImageResource(R.drawable.face1);
+                                if (remainingGuesses == 3)
+                                    marmot.setImageResource(R.drawable.face2);
+                                if (remainingGuesses == 2)
+                                    marmot.setImageResource(R.drawable.face3);
+                                if (remainingGuesses == 1)
+                                    marmot.setImageResource(R.drawable.face4);
+
+                            } else {
+                                statusdisplay.setText("You lost: the word was " + word);
+                                marmot.setImageResource(R.drawable.face5);
+                                mp2.start();
+                                input.setEnabled(false);
+                                play.setText("New Game!");
+
+                            }
+
+                        } else {
+                            String actualVisible = "";
+                            for (int i = 0; i < visible.length(); i += 2) {
+                                actualVisible += visible.charAt(i);
+                            }
+
+                            if (actualVisible.equals(word)) {
+                                statusdisplay.setText("Congratulations, you have won!");
+                                marmot.setImageResource(R.drawable.teddy);
+                                mp.start();
+                                input.setEnabled(false);
+                            }
+                        }
+
+                    } else {
+                        System.out.println("Invalid input!");
+                    }
+
+                    input.setText("");
+
+                }
+            }
         });
 
     }
